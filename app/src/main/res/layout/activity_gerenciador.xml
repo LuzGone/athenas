@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GerenciadorActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Nova Senha"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:fontFamily="@font/rubik_mono_one"
+        android:layout_weight="1"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <TextView
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descrição:"
+            android:textSize="10dp"
+            android:fontFamily="@font/rubik_mono_one"
+            />
+
+        <EditText
+            android:id="@+id/descricao"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:text="Quantidade de caracteres:"
+            android:padding="10dp"
+            android:fontFamily="@font/rubik_mono_one"
+            android:textSize="10dp"
+            />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:valueFrom="4"
+            android:valueTo="100"
+            android:stepSize="1"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp">
+            <TextView
+                android:id="@+id/valorMinimoSlider"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="4"/>
+            <TextView
+                android:id="@+id/valorAtualSlider"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="100"
+                android:textAlignment="center"/>
+            <TextView
+                android:id="@+id/valorMaximoSlider"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="100"
+                android:textAlignment="textEnd"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:layout_weight="2">
+        <CheckBox
+            android:id="@+id/letrasMaiusculas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Letras Maiúsculas"/>
+        <CheckBox
+            android:id="@+id/numeros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Números"/>
+        <CheckBox
+            android:id="@+id/caracteresEspeciais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Caracteres Especiais"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:gravity="top|center"
+        >
+        <Button
+            android:id="@+id/botaoConfirmar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirmar"
+            android:layout_marginRight="10dp"/>
+        <Button
+            android:id="@+id/botaoExcluir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Excluir"
+            android:layout_marginRight="10dp"
+            />
+        <Button
+            android:id="@+id/botaoCancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"/>
+    </LinearLayout>
+
+</LinearLayout>

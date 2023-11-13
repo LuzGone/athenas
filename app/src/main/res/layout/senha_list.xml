@@ -5,13 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="50dp">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/senhaList"
-        android:text="Exemplo (X)"
-        android:layout_marginLeft="10dp"
-        android:textSize="15dp"
-        android:fontFamily="@font/rubik_mono_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/senhaTexto"
+            android:text="Exemplo (X)"
+            android:layout_marginLeft="10dp"
+            android:textSize="15dp"
+            android:fontFamily="@font/rubik_mono_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/senhaCriacao"
+                android:text="Criado em: DD/MM/AA"
+                android:layout_marginLeft="10dp"
+                android:textSize="10dp"
+                android:fontFamily="@font/rubik_mono_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/senhaAtualizacao"
+                android:text="Atualizado em: DD/MM/AA"
+                android:layout_marginLeft="10dp"
+                android:textSize="10dp"
+                android:fontFamily="@font/rubik_mono_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

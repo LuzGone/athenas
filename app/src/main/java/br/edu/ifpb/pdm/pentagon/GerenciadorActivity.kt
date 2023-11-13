@@ -3,6 +3,7 @@ package br.edu.ifpb.pdm.pentagon
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -11,9 +12,9 @@ import androidx.core.view.isVisible
 import com.google.android.material.slider.Slider
 
 class GerenciadorActivity : AppCompatActivity() {
+    private var senhaDAO:SenhaDAO = SenhaDAO(this);
     private lateinit var senha: Senha;
-    private var temSenha = false
-
+    private var temSenha: Boolean = false;
 
     private lateinit var titulo:TextView;
     private lateinit var descricao:EditText;
@@ -42,35 +43,28 @@ class GerenciadorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gerenciador)
 
-        if(intent.hasExtra("descricao")){
-            this.senhaDescricao = intent.getStringExtra("descricao")
-            this.temSenha = true;
+        val id = intent.getIntExtra("id",-1)
+        Log.i("Senha","ID: ${id}.")
+        if(id != -1){
+            this.temSenha = true
+            val senha = this.senhaDAO.find(id)
+            Log.i("Senha","ID: ${id}.")
+            if(senha != null){
+                this.senha = senha
+                Log.i("Senha","ID: ${senha.getId()}.")
+            }
+        }else{
+            this.senha = Senha(
+                this.senhaDescricao,
+                this.senhaTemLM,
+                this.senhaTemCS,
+                this.senhaTemN,
+                this.senhaTamanho
+            )
         }
-        if(intent.hasExtra("temLM")){
-            this.senhaTemLM = intent.getBooleanExtra("temLM",false);
-        }
-        if(intent.hasExtra("temN")){
-            this.senhaTemN = intent.getBooleanExtra("temN",false);
-        }
-        if(intent.hasExtra("temCS")){
-            this.senhaTemCS = intent.getBooleanExtra("temCS",false);
-        }
-        if(intent.hasExtra("tamanho")){
-            this.senhaTamanho = intent.getIntExtra("tamanho",4);
-        }
-
-        this.senha = Senha(
-            this.senhaDescricao,
-            this.senhaTemLM,
-            this.senhaTemCS,
-            this.senhaTemN,
-            this.senhaTamanho
-        )
-
-
 
         this.titulo = findViewById(R.id.titulo);
-        if(this.temSenha){
+        if(temSenha){
             this.titulo.setText("Editar Senha")
         }
 
@@ -110,7 +104,7 @@ class GerenciadorActivity : AppCompatActivity() {
         this.botaoCancelar.setOnClickListener{cancelar()}
 
         this.botaoExcluir = findViewById(R.id.botaoExcluir);
-        if(!this.temSenha){
+        if(!temSenha){
             this.botaoExcluir.isVisible = false
         }
         this.botaoExcluir.setOnClickListener{ excluir() }
@@ -122,34 +116,36 @@ class GerenciadorActivity : AppCompatActivity() {
     }
 
     fun confirmar(){
-        //A SENHA NÃO VAI SER CRIADA AQUI E SIM NO MAIN ACITIVITY ;-;
         val descricao = this.descricao.text.toString()
         val temLM = this.letrasMaiusculas.isChecked()
         val temN = this.numeros.isChecked()
         val temCS = this.caracteresEspeciais.isChecked()
         val tamanho = this.slider.value.toInt()
 
-        val intent = Intent().apply {
-            putExtra("descricao",descricao)
-            putExtra("temLM",temLM)
-            putExtra("temN",temN)
-            putExtra("temCS",temCS)
-            putExtra("tamanho",tamanho)
-        }
-
-        if(this.temSenha){
-            intent.apply {
-                putExtra("temSenha",true)
-            }
+        if(!temSenha){
+            this.senha = Senha(
+                descricao,
+                temLM,
+                temN,
+                temCS,
+                tamanho
+            )
+            this.senhaDAO.insert(this.senha)
+        }else{
+            this.senha.setDescricao(descricao)
+            this.senha.setTemLM(temLM)
+            this.senha.setTemN(temN)
+            this.senha.setTemCS(temCS)
+            this.senha.setTamanho(tamanho)
+            this.senha.gerarSenha()
+            this.senhaDAO.update(this.senha)
         }
         setResult(RESULT_OK,intent)
         finish()
     }
 
     fun excluir(){
-        val intent = Intent().apply {
-            putExtra("excluir",true)
-        }
+        this.senhaDAO.delete(this.senha.getId())
         setResult(RESULT_OK,intent)
         finish()
     }

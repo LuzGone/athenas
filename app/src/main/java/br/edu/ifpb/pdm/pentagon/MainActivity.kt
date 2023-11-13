@@ -21,43 +21,23 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var listinhaDeSenha: ListView;
     private lateinit var botaoNovaSenha: FloatingActionButton;
-    private var senhas = mutableListOf<Senha>()
-    private var caracteres = mutableListOf<String>()
-    private var posicaoDaSenhaAlterada = 0;
+    private lateinit var senhas : List<Senha>;
+    private lateinit var senhaDAO: SenhaDAO;
 
     private val gerenciadorResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if(it.resultCode == RESULT_OK){
-            if(it.data != null){
-                val descricao = it.data?.getStringExtra("descricao")
-                val temLM = it.data?.getBooleanExtra("temLM",false)
-                val temN = it.data?.getBooleanExtra("temN",false)
-                val temCS = it.data?.getBooleanExtra("temCS",false)
-                val tamanho = it.data?.getIntExtra("tamanho",4)
-
-                Log.i("VALORES","${temCS} - ${temLM} - ${temN}")
-                val senha = Senha(descricao,temLM,temCS,temN,tamanho)
-
-//                this.senhas.add(senha)
-                Log.i("SENHA",senha.getSenha())
-                Log.i("TAMANHO","${this.senhas.size}")
-                if(it.data?.getBooleanExtra("temSenha",false) == true){
-                    alterarSenha(senha,this.posicaoDaSenhaAlterada)
-                }else if(it.data?.getBooleanExtra("excluir",false)==true){
-                    excluirSenha(this.posicaoDaSenhaAlterada)
-                }else{
-                    atualizarLista(senha)
-                }
-            }
+            atualizarLista()
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        this.senhaDAO = SenhaDAO(this);
         this.listinhaDeSenha = findViewById(R.id.listinhaDeSenhas);
         this.botaoNovaSenha = findViewById(R.id.botaoNovaSenha)
+        this.senhas = this.senhaDAO.select();
 
-//        this.listinhaDeSenha.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this.caracteres)
         this.listinhaDeSenha.adapter = SenhaAdapter(this,this.senhas);
         this.listinhaDeSenha.setOnItemLongClickListener(PegarSenha())
         this.listinhaDeSenha.setOnItemClickListener (EditarSenha())
@@ -71,41 +51,23 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun atualizarLista(senha:Senha){
-        (this.listinhaDeSenha.adapter as SenhaAdapter).adicionar(senha)
-    }
-
-    fun alterarSenha(novaSenha:Senha,posicao:Int){
-        (this.listinhaDeSenha.adapter as SenhaAdapter).alterarSenha(novaSenha,posicao)
-    }
-
-    fun excluirSenha(posicao:Int){
-        (this.listinhaDeSenha.adapter as SenhaAdapter).excluirSenha(posicao)
+    fun atualizarLista(){
+        (this.listinhaDeSenha.adapter as SenhaAdapter).atualizar(this.senhaDAO.select())
     }
 
     inner class EditarSenha: AdapterView.OnItemClickListener {
         override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
             val senha = this@MainActivity.senhas.get(p2)
-            posicaoDaSenhaAlterada = p2
-            editarSenha(senha)
+            Log.i("Id da senha", "${senha.getId()}")
+            editarSenha(senha.getId())
         }
     }
 
 
 
-    fun editarSenha(senha:Senha){
-        val descricao = senha.getDescricao()
-        val temLM = senha.getTemLM()
-        val temN = senha.getTemN()
-        val temCS = senha.getTemCS()
-        val tamanho = senha.getTamanho()
-
+    fun editarSenha(id:Int){
         val intent = Intent(this,GerenciadorActivity::class.java).apply {
-            putExtra("descricao",descricao)
-            putExtra("temLM",temLM)
-            putExtra("temN",temN)
-            putExtra("temCS",temCS)
-            putExtra("tamanho",tamanho)
+            putExtra("id",id)
         }
 
         this.gerenciadorResult.launch(intent)

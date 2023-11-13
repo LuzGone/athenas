@@ -16,22 +16,22 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/rubik_mono_one"
+            android:fontFamily="@font/caesar_dressing"
             android:gravity="center"
             android:paddingTop="20dp"
             android:paddingBottom="10dp"
-            android:text="Pentagon"
-            android:textSize="30dp" />
+            android:text="Athena"
+            android:textSize="40dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="19dp"
-            android:fontFamily="@font/rubik_mono_one"
+            android:fontFamily="@font/caesar_dressing"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:text="Gerenciador de Senhas"
-            android:textSize="15dp" />
+            android:textSize="20dp" />
 
         <ListView
             android:layout_width="match_parent"
